@@ -1,0 +1,65 @@
+{
+  "name": "devpulse",
+  "productName": "DevPulse",
+  "version": "1.0.0",
+  "description": "Windows desktop app to detect developer tools, check versions, and safely update supported components.",
+  "main": ".vite/build/main.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/an1lbayram/DevPulse.git"
+  },
+  "bugs": {
+    "url": "https://github.com/an1lbayram/DevPulse/issues"
+  },
+  "homepage": "https://github.com/an1lbayram/DevPulse#readme",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "keywords": [
+    "electron",
+    "vite",
+    "react",
+    "windows",
+    "developer-tools",
+    "updater",
+    "winget",
+    "chocolatey",
+    "npm"
+  ],
+  "author": {
+    "name": "an1lbayram",
+    "email": "anilbayram48@gmail.com"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@electron-forge/cli": "^7.11.1",
+    "@electron-forge/maker-deb": "^7.11.1",
+    "@electron-forge/maker-rpm": "^7.11.1",
+    "@electron-forge/maker-squirrel": "^7.11.1",
+    "@electron-forge/maker-zip": "^7.11.1",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.11.1",
+    "@electron-forge/plugin-fuses": "^7.11.1",
+    "@electron-forge/plugin-vite": "^7.11.1",
+    "@electron/fuses": "^1.8.0",
+    "@vitejs/plugin-react": "^4.7.0",
+    "electron": "41.2.0",
+    "eslint": "^10.2.0",
+    "vite": "^5.4.21",
+    "vitest": "^4.1.4"
+  },
+  "dependencies": {
+    "axios": "^1.15.0",
+    "electron-squirrel-startup": "^1.0.1",
+    "electron-store": "^11.0.2",
+    "lucide-react": "^1.8.0",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "semver": "^7.7.4",
+    "winston": "^3.19.0"
+  }
+}
