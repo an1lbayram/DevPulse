@@ -62,6 +62,3 @@ DevPulse uses `child_process.spawn` to run commands on your system. To ensure sa
 - **Logs**: UI keeps the last ~1000 log entries to avoid unbounded memory growth.
 - **Network**: Version checks use a request timeout to avoid hanging on slow endpoints.
 - **Dependencies**: `npm audit --omit=dev` is clean; `npm audit` may report issues in development tooling dependencies.
-
----
-*Developed with ❤️ for developers.*
