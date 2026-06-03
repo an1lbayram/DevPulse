@@ -122,7 +122,34 @@ export default function Dashboard() {
   return (
     <div className="dashboard-container">
       <div className="header">
-        <h1><Activity color="#6366f1" /> DevPulse</h1>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <h1><Activity color="#6366f1" /> DevPulse</h1>
+          <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '-0.5rem', marginLeft: '2.5rem' }}>
+            Created by <button 
+              onClick={() => {
+                if (window.devpulse?.openExternal) {
+                  window.devpulse.openExternal('https://an1lbayram.github.io/').catch(() => {
+                    window.open('https://an1lbayram.github.io/', '_blank', 'noopener,noreferrer');
+                  });
+                } else {
+                  window.open('https://an1lbayram.github.io/', '_blank', 'noopener,noreferrer');
+                }
+              }}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: '#6366f1',
+                cursor: 'pointer',
+                fontWeight: 'bold',
+                padding: 0,
+                fontFamily: 'inherit',
+                fontSize: 'inherit'
+              }}
+              onMouseOver={(e) => e.target.style.textDecoration = 'underline'}
+              onMouseOut={(e) => e.target.style.textDecoration = 'none'}
+            >&lt;/&gt; an1lbayram</button>
+          </div>
+        </div>
         <div style={{ display: 'flex', gap: '1rem' }}>
           <button 
             className={`scan-btn ${isUpdatingAll ? 'outline' : ''}`} 
