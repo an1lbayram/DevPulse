@@ -128,11 +128,11 @@ export default function Dashboard() {
             Created by <button 
               onClick={() => {
                 if (window.devpulse?.openExternal) {
-                  window.devpulse.openExternal('https://an1lbayram.github.io/').catch(() => {
-                    window.open('https://an1lbayram.github.io/', '_blank', 'noopener,noreferrer');
+                  window.devpulse.openExternal('https://an1lbayram-github-io.vercel.app/').catch(() => {
+                    window.open('https://an1lbayram-github-io.vercel.app/', '_blank', 'noopener,noreferrer');
                   });
                 } else {
-                  window.open('https://an1lbayram.github.io/', '_blank', 'noopener,noreferrer');
+                  window.open('https://an1lbayram-github-io.vercel.app/', '_blank', 'noopener,noreferrer');
                 }
               }}
               style={{
