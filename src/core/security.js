@@ -54,6 +54,16 @@ function validateCommandParts(cmd, args = []) {
 
   const allowedPatterns = ALLOWED_COMMANDS.get(cmd);
   const argParts = (args || []).map(String);
+
+  // Check for shell injection characters in individual arguments
+  const shellInjectionRegex = /[&|;<>$`\r\n]/;
+  for (const arg of argParts) {
+    if (shellInjectionRegex.test(arg)) {
+      logger.warn(`Security Blocked: Argument contains forbidden characters: ${arg}`);
+      return false;
+    }
+  }
+
   const matchesPattern = allowedPatterns.some((patternParts) => {
     if (argParts.length < patternParts.length) return false;
     for (let i = 0; i < patternParts.length; i++) {

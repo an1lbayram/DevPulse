@@ -1,5 +1,16 @@
 import Store from 'electron-store';
-const store = new Store();
+
+let store;
+try {
+  store = new Store({ name: 'devpulse-cache' });
+} catch {
+  const memoryStore = new Map();
+  store = {
+    get: (k) => memoryStore.get(k),
+    set: (k, v) => memoryStore.set(k, v),
+    clear: () => memoryStore.clear()
+  };
+}
 
 function getCache(key) {
   const cached = store.get(key);

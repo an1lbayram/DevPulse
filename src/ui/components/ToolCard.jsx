@@ -1,18 +1,19 @@
 import { useState } from 'react';
 import { RefreshCw, Download, ExternalLink, AlertCircle, Terminal, Copy, Check } from 'lucide-react';
+import { TOOLS } from '../../config/tools';
 
 import compareVersions from 'semver/functions/compare';
 import valid from 'semver/functions/valid';
 import coerce from 'semver/functions/coerce';
 
 export default function ToolCard({ toolId, data, isUpdating, onUpdate }) {
-  const { name, icon } = getToolMeta(toolId);
+  const { name, icon, category } = getToolMeta(toolId);
   const [showTooltip, setShowTooltip] = useState(false);
   const [copied, setCopied] = useState(false);
 
   if (!data) {
     return (
-      <div className="tool-card">
+      <div className="tool-card skeleton">
         <div className="card-header">
           <div className="tool-title">
              <span className="tool-icon">{icon}</span>
@@ -20,7 +21,7 @@ export default function ToolCard({ toolId, data, isUpdating, onUpdate }) {
           </div>
         </div>
         <div className="version-info" style={{ alignItems: 'center', justifyContent: 'center' }}>
-          Loading...
+          Loading status...
         </div>
       </div>
     );
@@ -44,7 +45,6 @@ export default function ToolCard({ toolId, data, isUpdating, onUpdate }) {
         status = 'update_available';
       }
     } else if (!latestVersion) {
-      // latestVersion bilinmiyor (örn. chocolatey)
       status = 'installed';
     } else if (version === latestVersion) {
       status = 'up_to_date';
@@ -62,7 +62,6 @@ export default function ToolCard({ toolId, data, isUpdating, onUpdate }) {
   };
   const { cls: badgeClass, text: badgeText } = badgeMap[status] || badgeMap.not_installed;
 
-  // Buton durumu
   const isManual = installed && !canUpdate;
   const isDisabled = !installed || isUpToDate || isUpdating || isManual;
 
@@ -74,7 +73,6 @@ export default function ToolCard({ toolId, data, isUpdating, onUpdate }) {
   else if (isManual)    { btnClass += ' btn-disabled'; btnLabel = 'Manual Update'; }
   if (isUpdating)       { btnLabel = 'Updating...'; }
 
-  // Tooltip metni
   const tooltipText = !installed
     ? 'Bu araç sisteminizde kurulu değil.'
     : isUpToDate
@@ -107,51 +105,56 @@ export default function ToolCard({ toolId, data, isUpdating, onUpdate }) {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
+  const categoryLabel = category === 'language' ? 'Language' : 'Package Manager';
+
   return (
-    <div className="tool-card">
+    <div className={`tool-card ${status}`}>
       <div className="card-header">
         <div className="tool-title">
-           <span className="tool-icon">{icon}</span>
-           <span className="tool-name">{name}</span>
+          <span className="tool-icon">{icon}</span>
+          <div className="tool-header-text">
+            <span className="tool-name">{name}</span>
+            <span className="tool-category">{categoryLabel}</span>
+          </div>
         </div>
         <span className={`status-badge ${badgeClass}`}>{badgeText}</span>
       </div>
 
       <div className="version-info">
         <div className="version-row">
-          <span>Current:</span>
+          <span className="version-label">Current:</span>
           <span className="version-value">{installed ? version : 'N/A'}</span>
         </div>
         <div className="version-row">
-          <span>Latest:</span>
-          <span className="version-value">{latestVersion || 'Unknown'}</span>
+          <span className="version-label">Latest:</span>
+          <span className="version-value highlight">{latestVersion || 'Unknown'}</span>
         </div>
       </div>
 
-      {/* Admin komutu kopyalama kutusu (Chocolatey gibi araçlar için) */}
+      {/* Admin command box */}
       {isManual && installed && adminCmd && (
         <div className="admin-cmd-info">
           <div className="admin-cmd-header">
             <Terminal size={13} />
-            <span>Yönetici olarak çalıştırın:</span>
+            <span>Run in Administrator Terminal:</span>
           </div>
           <div className="admin-cmd-row">
             <code className="admin-cmd-code">{adminCmd}</code>
-            <button className="copy-btn" onClick={handleCopy} title="Komutu Kopyala">
+            <button className="copy-btn" onClick={handleCopy} title="Copy Command">
               {copied ? <Check size={13} color="#10b981" /> : <Copy size={13} />}
             </button>
           </div>
         </div>
       )}
 
-      {/* Sadece indirme linki olan araçlar için */}
+      {/* Manual update link */}
       {isManual && installed && !adminCmd && manualUpdateUrl && (
         <div className="manual-update-info">
           <AlertCircle size={14} />
           <span>
-            Bu araç otomatik güncellenemiyor.{' '}
+            Auto-update unavailable.{' '}
             <span className="manual-update-link" onClick={handleOpenUrl}>
-              Resmi siteye git <ExternalLink size={11} style={{ display: 'inline', verticalAlign: 'middle' }} />
+              Official Site <ExternalLink size={11} style={{ display: 'inline', verticalAlign: 'middle' }} />
             </span>
           </span>
         </div>
@@ -162,7 +165,6 @@ export default function ToolCard({ toolId, data, isUpdating, onUpdate }) {
           className="btn-wrapper"
           onMouseEnter={() => isDisabled && setShowTooltip(true)}
           onMouseLeave={() => setShowTooltip(false)}
-          style={{ position: 'relative' }}
         >
           <button
             className={btnClass}
@@ -183,6 +185,7 @@ export default function ToolCard({ toolId, data, isUpdating, onUpdate }) {
 }
 
 function getToolMeta(id) {
+  const toolDef = TOOLS.find(t => t.id === id);
   const map = {
     python:     { name: 'Python',      icon: '🐍' },
     nodejs:     { name: 'Node.js',     icon: '🟢' },
@@ -196,5 +199,9 @@ function getToolMeta(id) {
     chocolatey: { name: 'Chocolatey', icon: '🍫' },
     winget:     { name: 'winget',      icon: '🪟' }
   };
-  return map[id] || { name: id, icon: '🔧' };
+  const meta = map[id] || { name: id, icon: '🔧' };
+  return {
+    ...meta,
+    category: toolDef?.category || 'tool'
+  };
 }

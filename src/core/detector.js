@@ -11,8 +11,9 @@ async function checkToolStatus(tool) {
     const output = (stdout + ' ' + stderr).trim();
     const match = output.match(tool.versionRegex);
     
-    if (match && match[1]) {
-      return { installed: true, version: match[1] };
+    if (match) {
+      const version = match.slice(1).find(g => g !== undefined) || match[0];
+      return { installed: true, version };
     } else {
       logger.warn(`Could not parse version for ${tool.id}. Output: ${output}`);
       // Fallback

@@ -31,11 +31,14 @@ export default [
         ecmaFeatures: { jsx: true }
       },
       globals: {
-        // Browser / renderer
+        // Browser / Service Worker / renderer
         window: 'readonly',
         document: 'readonly',
         navigator: 'readonly',
         location: 'readonly',
+        self: 'readonly',
+        caches: 'readonly',
+        fetch: 'readonly',
         // Node / Electron main & preload
         process: 'readonly',
         __dirname: 'readonly',

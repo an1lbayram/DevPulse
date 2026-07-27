@@ -1,13 +1,23 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>DevPulse</title>
-
-    <script type="module" crossorigin src="/assets/index-B3PQ2epB.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-B3rjq_JQ.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="DevPulse - Detect developer tools, check versions, and safely update supported components." />
+    <meta name="theme-color" content="#0a0e17" />
+    <link rel="manifest" href="/manifest.json" />
+    <title>DevPulse - Developer Tool Manager &amp; Updater</title>
+    <script type="module" crossorigin src="/assets/index-BltWnIox.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-Q_Q5MMJ3.css">
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
+    </script>
   </body>
 </html>

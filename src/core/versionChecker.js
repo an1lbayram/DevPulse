@@ -16,7 +16,16 @@ async function getLatestVersion(toolId) {
 
   try {
     logger.info(`Fetching latest version for ${toolId} from API...`);
-    const response = await axios.get(tool.latestVersionApi, { timeout: 10_000 });
+    const options = {
+      timeout: 10_000,
+      headers: {
+        'User-Agent': 'DevPulse/1.0.0 (Windows)'
+      }
+    };
+    if (tool.isTextApi) {
+      options.responseType = 'text';
+    }
+    const response = await axios.get(tool.latestVersionApi, options);
     const data = response.data;
     const latestVersion = tool.parseLatest(data);
     

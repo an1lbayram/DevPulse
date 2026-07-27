@@ -1,8 +1,10 @@
-import { useRef, useEffect } from 'react';
-import { Terminal, Copy } from 'lucide-react';
+import { useRef, useEffect, useState } from 'react';
+import { Terminal, Copy, Trash2, Check } from 'lucide-react';
 
-export default function LogPanel({ logs }) {
+export default function LogPanel({ logs = [], onClearLogs }) {
   const logEndRef = useRef(null);
+  const [filterType, setFilterType] = useState('all');
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     if (logEndRef.current) {
@@ -11,32 +13,78 @@ export default function LogPanel({ logs }) {
   }, [logs]);
 
   const handleCopy = () => {
-    const text = logs.map(l => l.text).join('\n');
+    const text = filteredLogs.map(l => `[${l.timestamp || ''}] [${l.type.toUpperCase()}] ${l.text}`).join('\n');
     if (window.devpulse?.copyToClipboard) {
       window.devpulse.copyToClipboard(text);
-      return;
+    } else {
+      navigator.clipboard.writeText(text);
     }
-    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
+
+  const filteredLogs = logs.filter(l => filterType === 'all' || l.type === filterType);
 
   return (
     <div className="log-panel">
       <div className="log-header">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <Terminal size={16} />
-          <span>Output Logs</span>
+        <div className="log-header-title">
+          <Terminal size={16} color="#6366f1" />
+          <span>Console Output</span>
+          <span className="log-badge">{logs.length} entries</span>
         </div>
-        <button className="update-btn outline" style={{ padding: '0.25rem 0.5rem', fontSize: '0.8rem' }} onClick={handleCopy}>
-          <Copy size={14} /> Copy
-        </button>
+
+        <div className="log-filters">
+          <button 
+            className={`log-filter-btn ${filterType === 'all' ? 'active' : ''}`}
+            onClick={() => setFilterType('all')}
+          >
+            All
+          </button>
+          <button 
+            className={`log-filter-btn ${filterType === 'info' ? 'active' : ''}`}
+            onClick={() => setFilterType('info')}
+          >
+            Info
+          </button>
+          <button 
+            className={`log-filter-btn ${filterType === 'success' ? 'active' : ''}`}
+            onClick={() => setFilterType('success')}
+          >
+            Success
+          </button>
+          <button 
+            className={`log-filter-btn ${filterType === 'error' ? 'active' : ''}`}
+            onClick={() => setFilterType('error')}
+          >
+            Error
+          </button>
+        </div>
+
+        <div className="log-actions">
+          <button className="log-action-btn" onClick={handleCopy} title="Copy Logs">
+            {copied ? <Check size={14} color="#10b981" /> : <Copy size={14} />}
+            <span>{copied ? 'Copied' : 'Copy'}</span>
+          </button>
+          {onClearLogs && (
+            <button className="log-action-btn danger" onClick={onClearLogs} title="Clear Logs">
+              <Trash2 size={14} />
+              <span>Clear</span>
+            </button>
+          )}
+        </div>
       </div>
+
       <div className="log-content">
-        {logs.length === 0 ? (
-          <span style={{ color: '#64748b' }}>Ready. Waiting for operations...</span>
+        {filteredLogs.length === 0 ? (
+          <div className="log-empty">
+            <span>Ready. Waiting for operations...</span>
+          </div>
         ) : (
-          logs.map((log, index) => (
+          filteredLogs.map((log, index) => (
             <div key={index} className={`log-entry ${log.type}`}>
-              {log.text}
+              {log.timestamp && <span className="log-timestamp">[{log.timestamp}]</span>}
+              <span className="log-text">{log.text}</span>
             </div>
           ))
         )}
