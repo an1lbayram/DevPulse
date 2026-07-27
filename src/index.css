@@ -396,3 +396,53 @@ button:disabled {
 .log-entry.error { color: var(--accent-danger); }
 .log-entry.success { color: var(--accent-success); }
 .log-entry.info { color: #60a5fa; }
+
+/* Responsive Media Queries */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1rem 0.75rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .header h1 {
+    font-size: 1.4rem;
+  }
+
+  .scan-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .tools-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+
+  .tool-card {
+    padding: 1.25rem;
+  }
+
+  .admin-cmd-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .copy-btn {
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .tools-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .header h1 {
+    font-size: 1.25rem;
+  }
+}
