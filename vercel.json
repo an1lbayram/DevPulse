@@ -1,0 +1,7 @@
+{
+  "buildCommand": "vite build -c vite.renderer.config.mjs",
+  "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

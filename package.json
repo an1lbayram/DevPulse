@@ -19,7 +19,8 @@
     "publish": "electron-forge publish",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test": "vitest run"
+    "test": "vitest run",
+    "build": "vite build -c vite.renderer.config.mjs"
   },
   "keywords": [
     "electron",
