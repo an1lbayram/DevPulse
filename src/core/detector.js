@@ -1,6 +1,5 @@
 import { exec } from 'child_process';
 import util from 'util';
-import { TOOLS } from '../config/tools.js';
 import logger from './logger.js';
 
 const execAsync = util.promisify(exec);
@@ -25,16 +24,4 @@ async function checkToolStatus(tool) {
   }
 }
 
-async function scanSystem() {
-  logger.info('Starting system scan for tools...');
-  const results = {};
-  for (const tool of TOOLS) {
-    logger.info(`Checking ${tool.name}...`);
-    // Progress message for renderer logs (sent by main process)
-    results[tool.id] = await checkToolStatus(tool);
-  }
-  logger.info('System scan completed.');
-  return results;
-}
-
-export { scanSystem, checkToolStatus };
+export { checkToolStatus };

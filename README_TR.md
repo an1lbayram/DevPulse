@@ -1,7 +1,7 @@
 # DevPulse 🔍🖥️
 
 ![Electron](https://img.shields.io/badge/Electron-Latest-47848F?logo=electron)
-![React](https://img.shields.io/badge/React-18-blue?logo=react)
+![React](https://img.shields.io/badge/React-19-blue?logo=react)
 ![Vite](https://img.shields.io/badge/Vite-Ready-646CFF?logo=vite)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
