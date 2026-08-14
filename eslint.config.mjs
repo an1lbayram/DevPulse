@@ -57,6 +57,15 @@ export default [
       'no-undef': 'error',
       'no-debugger': 'warn'
     }
+  },
+  {
+    files: ['tests/**/*.{js,jsx}'],
+    languageOptions: {
+      globals: {
+        performance: 'readonly',
+        Element: 'readonly'
+      }
+    }
   }
 ];
 

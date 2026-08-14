@@ -17,3 +17,29 @@ jobs:
       - run: npm run lint
       - run: npm test
 
+  e2e:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm install
+      - run: npx playwright install --with-deps
+      - run: npm run test:e2e
+
+  dependency-audit:
+    runs-on: windows-latest
+    # Reports real advisories in production dependencies without blocking
+    # merges on its own; see the job summary/logs for what needs upgrading.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm install
+      - run: npm run test:audit
+
