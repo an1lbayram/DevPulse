@@ -102,4 +102,4 @@ DevPulse enforces strict security measures when running system commands:
 
 This project is licensed under the [MIT License](LICENSE).
 
-**Developer:** [Anıl Bayram](https://github.com/an1lbayram)
+**Developer:** [Anıl Bayram](https://an1lbayram.vercel.app/) | [GitHub](https://github.com/an1lbayram)
